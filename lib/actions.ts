@@ -35,7 +35,7 @@ export async function login(_: unknown, formData: FormData) {
       };
     }
 
-    revalidatePath("/", "layout");
+    revalidatePath("/generator", "layout");
     redirect("/generator");
   } catch (err) {
     console.error("Login Error:", err);
