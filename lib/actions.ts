@@ -6,8 +6,8 @@ import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 
 const LoginFormSchema = z.object({
-  email: z.string().nonempty().email().trim(),
-  password: z.string().nonempty().trim(),
+  email: z.string().email().trim(),
+  password: z.string().min(20).trim(),
 });
 
 export async function login(_: unknown, formData: FormData) {

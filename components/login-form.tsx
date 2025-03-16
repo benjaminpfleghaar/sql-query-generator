@@ -36,7 +36,6 @@ export default function LoginForm() {
               type="email"
               placeholder="john@example.com"
               defaultValue={state?.values?.email ?? ""}
-              required
             />
           </fieldset>
           <fieldset className="space-y-2">
@@ -45,9 +44,8 @@ export default function LoginForm() {
               id="password"
               name="password"
               type="password"
-              placeholder="••••••••"
+              placeholder="••••••••••••"
               defaultValue={state?.values?.password ?? ""}
-              required
             />
             {state?.error && (
               <p className="text-sm text-red-500">{state.error}</p>
