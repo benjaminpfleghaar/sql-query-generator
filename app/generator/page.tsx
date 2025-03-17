@@ -6,6 +6,8 @@ export default async function Generator() {
   const supabase = await createClient();
   const { data } = await supabase.auth.getUser();
 
+  // TODO Create user context to avoid several requests instead of making one for the whole app
+
   if (!data?.user) {
     redirect("/");
   }

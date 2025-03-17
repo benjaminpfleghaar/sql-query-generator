@@ -7,7 +7,7 @@ import { createClient } from "@/lib/supabase/server";
 
 const LoginFormSchema = z.object({
   email: z.string().email().trim(),
-  password: z.string().min(20).trim(),
+  password: z.string().min(8).trim(),
 });
 
 export async function login(_: unknown, formData: FormData) {
@@ -35,7 +35,7 @@ export async function login(_: unknown, formData: FormData) {
       };
     }
 
-    revalidatePath("/generator", "layout");
+    revalidatePath("/", "layout");
     redirect("/generator");
   } catch (err) {
     console.error("Login Error:", err);
