@@ -7,6 +7,7 @@ import {
   CardTitle,
 } from "@/app/components/ui/card";
 import { redirect } from "next/navigation";
+import { logout } from "@/app/lib/actions";
 import Logout from "@/app/components/logout";
 import { createClient } from "@/app/lib/supabase/server";
 
@@ -29,7 +30,9 @@ export default async function Home() {
         </CardHeader>
         <CardContent>User: {data.user.email}</CardContent>
         <CardFooter>
-          <Logout />
+          <form action={logout}>
+            <Logout />
+          </form>
         </CardFooter>
       </Card>
     </div>

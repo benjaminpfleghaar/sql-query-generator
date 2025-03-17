@@ -26,8 +26,8 @@ export default function LoginForm({ className }: React.ComponentProps<"div">) {
           Enter your details to sign in to your account
         </CardDescription>
       </CardHeader>
-      <form action={formAction} id="loginForm">
-        <CardContent className="space-y-6">
+      <CardContent>
+        <form action={formAction} id="loginForm" className="space-y-6">
           <fieldset className="space-y-2">
             <Label htmlFor="email">Email</Label>
             <Input
@@ -51,8 +51,8 @@ export default function LoginForm({ className }: React.ComponentProps<"div">) {
               <p className="text-sm text-red-500">{state.error}</p>
             )}
           </fieldset>
-        </CardContent>
-      </form>
+        </form>
+      </CardContent>
       <CardFooter>
         <Button
           type="submit"

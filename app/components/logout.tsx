@@ -1,20 +1,15 @@
 "use client";
 
-import { useTransition } from "react";
 import { Loader2 } from "lucide-react";
-import { logout } from "@/app/lib/actions";
+import { useFormStatus } from "react-dom";
 import { Button } from "@/app/components/ui/button";
 
 export default function Logout() {
-  const [isPending, startTransition] = useTransition();
+  const { pending } = useFormStatus();
 
   return (
-    <Button
-      onClick={() => startTransition(logout)}
-      variant="outline"
-      disabled={isPending}
-    >
-      {isPending ? (
+    <Button type="submit" variant="outline" disabled={pending}>
+      {pending ? (
         <>
           <Loader2 className="animate-spin" />
           Logging out...
