@@ -1,9 +1,9 @@
 "use client";
 
 import { useTransition } from "react";
-import { logout } from "@/lib/actions";
+import { logout } from "@/app/lib/actions";
 import { Loader2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/app/components/ui/button";
 
 export default function Logout() {
   const [isPending, startTransition] = useTransition();

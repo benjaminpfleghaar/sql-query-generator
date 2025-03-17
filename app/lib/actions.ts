@@ -3,7 +3,7 @@
 import { z } from "zod";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from "@/app/lib/supabase/server";
 
 const LoginFormSchema = z.object({
   email: z.string().email().trim(),
@@ -34,15 +34,15 @@ export async function login(_: unknown, formData: FormData) {
         values: formFields,
       };
     }
-
-    revalidatePath("/", "layout");
-    redirect("/generator");
   } catch (err) {
     console.error("Login Error:", err);
     return {
       error: "An unexpected error occurred. Please try again later",
     };
   }
+
+  revalidatePath("/", "layout");
+  redirect("/");
 }
 
 export async function logout() {
@@ -54,10 +54,10 @@ export async function logout() {
       console.error("Logout Error:", error);
       return;
     }
-
-    revalidatePath("/", "layout");
-    redirect("/");
   } catch (err) {
     console.error("Unexpected Logout Error:", err);
   }
+
+  revalidatePath("/", "layout");
+  redirect("/");
 }
