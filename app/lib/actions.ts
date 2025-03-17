@@ -56,8 +56,9 @@ export async function logout() {
     }
   } catch (err) {
     console.error("Unexpected Logout Error:", err);
+    return;
   }
 
   revalidatePath("/", "layout");
-  redirect("/");
+  redirect("/login");
 }

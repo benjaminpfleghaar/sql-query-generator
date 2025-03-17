@@ -8,18 +8,18 @@ import {
   CardHeader,
   CardTitle,
 } from "@/app/components/ui/card";
-import { login } from "@/app/lib/actions";
 import { Loader2 } from "lucide-react";
-import { useActionState } from "react";
+import { login } from "@/app/lib/actions";
+import React, { useActionState } from "react";
 import { Label } from "@/app/components/ui/label";
 import { Input } from "@/app/components/ui/input";
 import { Button } from "@/app/components/ui/button";
 
-export default function LoginForm() {
+export default function LoginForm({ className }: React.ComponentProps<"div">) {
   const [state, formAction, pending] = useActionState(login, null);
 
   return (
-    <Card>
+    <Card className={className}>
       <CardHeader>
         <CardTitle className="text-2xl">Welcome</CardTitle>
         <CardDescription>
