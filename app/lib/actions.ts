@@ -10,6 +10,11 @@ const LoginFormSchema = z.object({
   password: z.string().min(8).trim(),
 });
 
+const GeneratorFormSchema = z.object({
+  key: z.string().min(2).trim(),
+  translation: z.string().min(2).trim(),
+});
+
 export async function login(_: unknown, formData: FormData) {
   try {
     const formFields = {
@@ -61,4 +66,38 @@ export async function logout() {
 
   revalidatePath("/", "layout");
   redirect("/login");
+}
+
+export async function getQuery(_: unknown, formData: FormData) {
+  try {
+    const formFields = {
+      key: formData.get("key") as string,
+      translation: formData.get("translation") as string,
+    };
+
+    const validatedFields = GeneratorFormSchema.safeParse(formFields);
+    if (!validatedFields.success) {
+      return {
+        error: "Invalid format or missing fields",
+        values: formFields,
+      };
+    }
+
+    // TODO send request to ChatGPT
+
+    const query =
+      `INSERT INTO translations (key, de) VALUES ('${formFields.key}', '${formFields.translation}');`.replace(
+        /\s+/g,
+        " ",
+      );
+
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
+    return { query: query };
+  } catch (err) {
+    console.error("Translation Error:", err);
+    return {
+      error: "An unexpected error occurred. Please try again later",
+    };
+  }
 }

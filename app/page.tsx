@@ -9,6 +9,7 @@ import {
 import { redirect } from "next/navigation";
 import { logout } from "@/app/lib/actions";
 import Logout from "@/app/components/logout";
+import Generator from "@/app/components/generator";
 import { createClient } from "@/app/lib/supabase/server";
 
 export default async function Home() {
@@ -28,7 +29,9 @@ export default async function Home() {
             Enter a translation key and German text to generate a SQL query
           </CardDescription>
         </CardHeader>
-        <CardContent>User: {data.user.email}</CardContent>
+        <CardContent>
+          <Generator />
+        </CardContent>
         <CardFooter>
           <form action={logout}>
             <Logout />
