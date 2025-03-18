@@ -47,10 +47,10 @@ export default function LoginForm({ className }: React.ComponentProps<"div">) {
               placeholder="••••••••••••"
               defaultValue={state?.values?.password ?? ""}
             />
-            {state?.error && (
-              <p className="text-sm text-red-500">{state.error}</p>
-            )}
           </fieldset>
+          {state?.error && (
+            <p className="text-sm text-red-500">{state.error}</p>
+          )}
         </form>
       </CardContent>
       <CardFooter>
