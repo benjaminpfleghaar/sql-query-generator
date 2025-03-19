@@ -61,6 +61,7 @@ export default function Generator() {
               Copy
             </Button>
           </div>
+          {/*TODO Provide Syntax highlighting*/}
           <Textarea
             id="query"
             value={state.query}

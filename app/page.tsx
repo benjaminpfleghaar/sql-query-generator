@@ -22,7 +22,7 @@ export default async function Home() {
 
   return (
     <div className="p-10">
-      <Card className="max-w-2xl mx-auto">
+      <Card className="max-w-4xl mx-auto">
         <CardHeader>
           <CardTitle className="text-2xl">SQL Query Generator</CardTitle>
           <CardDescription>
