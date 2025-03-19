@@ -64,7 +64,7 @@ export default function Generator() {
           <Textarea
             id="query"
             value={state.query}
-            className="font-mono h-24"
+            className="font-mono h-64"
             readOnly
           />
         </div>
