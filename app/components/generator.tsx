@@ -55,7 +55,7 @@ export default function Generator() {
               size="sm"
               onClick={() => {
                 navigator.clipboard.writeText(state.query);
-                toast("Copied to clipboard");
+                toast.info("Copied to clipboard");
               }}
             >
               <Copy />
