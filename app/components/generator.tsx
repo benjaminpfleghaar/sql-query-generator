@@ -1,5 +1,6 @@
 "use client";
 
+import { toast } from "sonner";
 import { useActionState } from "react";
 import { Copy, Loader2 } from "lucide-react";
 import { getQuery } from "@/app/lib/actions";
@@ -53,15 +54,14 @@ export default function Generator() {
               variant="outline"
               size="sm"
               onClick={() => {
-                // TODO implement toast message
                 navigator.clipboard.writeText(state.query);
+                toast("Copied to clipboard");
               }}
             >
               <Copy />
               Copy
             </Button>
           </div>
-          {/*TODO Provide Syntax highlighting*/}
           <Textarea
             id="query"
             value={state.query}
