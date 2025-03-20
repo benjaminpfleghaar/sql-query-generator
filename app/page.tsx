@@ -2,7 +2,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/app/components/ui/card";
@@ -11,6 +10,8 @@ import { logout } from "@/app/lib/actions";
 import Logout from "@/app/components/logout";
 import Generator from "@/app/components/generator";
 import { createClient } from "@/app/lib/supabase/server";
+import { ThemeToggle } from "@/app/components/theme-toggle";
+import React from "react";
 
 export default async function Home() {
   const supabase = await createClient();
@@ -24,7 +25,13 @@ export default async function Home() {
     <div className="p-10">
       <Card className="max-w-4xl mx-auto">
         <CardHeader>
-          <CardTitle className="text-2xl">SQL Query Generator</CardTitle>
+          <CardTitle className="text-2xl flex justify-between items-center">
+            SQL Query Generator
+            <form action={logout} className="flex gap-2">
+              <Logout />
+              <ThemeToggle />
+            </form>
+          </CardTitle>
           <CardDescription>
             Enter a translation key and German text to generate a SQL query
           </CardDescription>
@@ -32,11 +39,6 @@ export default async function Home() {
         <CardContent>
           <Generator />
         </CardContent>
-        <CardFooter>
-          <form action={logout}>
-            <Logout />
-          </form>
-        </CardFooter>
       </Card>
     </div>
   );

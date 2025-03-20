@@ -14,6 +14,7 @@ import React, { useActionState } from "react";
 import { Label } from "@/app/components/ui/label";
 import { Input } from "@/app/components/ui/input";
 import { Button } from "@/app/components/ui/button";
+import { ThemeToggle } from "@/app/components/theme-toggle";
 
 export default function LoginForm({ className }: React.ComponentProps<"div">) {
   const [state, formAction, pending] = useActionState(login, null);
@@ -21,7 +22,10 @@ export default function LoginForm({ className }: React.ComponentProps<"div">) {
   return (
     <Card className={className}>
       <CardHeader>
-        <CardTitle className="text-2xl">Welcome</CardTitle>
+        <CardTitle className="text-2xl flex justify-between items-center">
+          Welcome
+          <ThemeToggle />
+        </CardTitle>
         <CardDescription>
           Enter your details to sign in to your account
         </CardDescription>
