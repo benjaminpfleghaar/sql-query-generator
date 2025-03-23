@@ -1,12 +1,10 @@
 "use server";
 
 import { z } from "zod";
-import OpenAI from "openai";
+import { openai } from "@/app/lib/openai";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/app/lib/supabase/server";
-
-const client = new OpenAI();
 
 const LoginFormSchema = z.object({
   email: z.string().email().trim(),
@@ -18,7 +16,7 @@ const GeneratorFormSchema = z.object({
   translation: z.string().min(2).trim(),
 });
 
-export async function login(_: unknown, formData: FormData) {
+export async function handleLogin(_: unknown, formData: FormData) {
   try {
     const formFields = {
       email: formData.get("email") as string,
@@ -53,7 +51,7 @@ export async function login(_: unknown, formData: FormData) {
   redirect("/");
 }
 
-export async function logout() {
+export async function handleLogout() {
   try {
     const supabase = await createClient();
     const { error } = await supabase.auth.signOut();
@@ -109,7 +107,7 @@ export async function getQuery(_: unknown, formData: FormData) {
       "\n" +
       "Provide the translations in the same order.";
 
-    const response = await client.chat.completions.create({
+    const response = await openai.chat.completions.create({
       model: "gpt-4o-mini",
       messages: [
         {
@@ -141,6 +139,10 @@ export async function getQuery(_: unknown, formData: FormData) {
             `(N'${formFields.key}', ${Object.keys(languages)[index]}, N'${translation.trim()}')`,
         )
         .join(",\n") ?? "";
+
+    // TODO ON CONFLICT (translation_key) DO NOTHING;
+    // TODO Create User for Benedikt
+    // TODO Deploy on Vercel
 
     const query =
       "INSERT INTO parfumdreams.dbo.Translations (Translation_Field, Language, Translation) VALUES" +

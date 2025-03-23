@@ -9,15 +9,15 @@ import {
   CardTitle,
 } from "@/app/components/ui/card";
 import { Loader2 } from "lucide-react";
-import { login } from "@/app/lib/actions";
 import React, { useActionState } from "react";
+import { handleLogin } from "@/app/lib/actions";
 import { Label } from "@/app/components/ui/label";
 import { Input } from "@/app/components/ui/input";
 import { Button } from "@/app/components/ui/button";
 import { ThemeToggle } from "@/app/components/theme-toggle";
 
 export default function LoginForm({ className }: React.ComponentProps<"div">) {
-  const [state, formAction, pending] = useActionState(login, null);
+  const [state, formAction, pending] = useActionState(handleLogin, null);
 
   return (
     <Card className={className}>
