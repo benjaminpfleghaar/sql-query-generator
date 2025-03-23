@@ -68,7 +68,7 @@ The project follows a clear structure:
 │   ├── lib/            # Utilities and middleware
 │   ├── login/          # Login route
 │   │   ├── page.tsx    # Page displaying the login form
-│   ├── config.css      # Default language and databse values
+│   ├── config.js       # Default language and databse values
 │   ├── global.css      # Global styles for the entire app
 │   ├── layout.tsx      # Layout component for the app
 │   ├── page.tsx        # Main page displaying the query generator
