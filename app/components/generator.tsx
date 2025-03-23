@@ -1,9 +1,9 @@
 "use client";
 
 import { toast } from "sonner";
-import { useActionState } from "react";
 import { Copy, Loader2 } from "lucide-react";
 import { getQuery } from "@/app/lib/actions";
+import React, { useActionState } from "react";
 import { Label } from "@/app/components/ui/label";
 import { Input } from "@/app/components/ui/input";
 import { Button } from "@/app/components/ui/button";
@@ -11,6 +11,10 @@ import { Textarea } from "@/app/components/ui/textarea";
 
 export default function Generator() {
   const [state, formAction, pending] = useActionState(getQuery, null);
+
+  function handleSelect(e: React.ChangeEvent<HTMLTextAreaElement>) {
+    e.target.select();
+  }
 
   return (
     <>
@@ -66,6 +70,7 @@ export default function Generator() {
             id="query"
             value={state.query}
             className="font-mono h-64"
+            onFocus={handleSelect}
             readOnly
           />
         </div>
