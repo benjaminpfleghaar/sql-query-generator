@@ -140,15 +140,18 @@ export async function getQuery(_: unknown, formData: FormData) {
         )
         .join(",\n") ?? "";
 
-    // TODO ON CONFLICT (translation_key) DO NOTHING;
-    // TODO Create User for Benedikt
-    // TODO Deploy on Vercel
-
-    const query =
-      "INSERT INTO parfumdreams.dbo.Translations (Translation_Field, Language, Translation) VALUES" +
-      "\n" +
-      translations +
-      ";";
+    // @formatter:off
+    const query = `MERGE INTO parfumdreams.dbo.Translations AS target
+USING (VALUES
+${translations}
+) AS source (Translation_Field, Language, Translation)
+ON target.Translation_Field = source.Translation_Field AND target.Language = source.Language
+WHEN MATCHED THEN
+UPDATE SET target.Translation = source.Translation
+WHEN NOT MATCHED THEN
+INSERT (Translation_Field, Language, Translation)
+VALUES (source.Translation_Field, source.Language, source.Translation);`;
+    // @formatter:on
 
     return { query: query };
   } catch (err) {
