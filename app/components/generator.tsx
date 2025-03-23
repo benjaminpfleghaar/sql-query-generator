@@ -1,14 +1,23 @@
 "use client";
 
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/app/components/ui/select";
 import { z } from "zod";
 import { toast } from "sonner";
-import { languages } from "@/app/config";
 import { Copy, Loader2 } from "lucide-react";
-import React, { useActionState } from "react";
+import { databases, languages } from "@/app/config";
 import { Label } from "@/app/components/ui/label";
 import { Input } from "@/app/components/ui/input";
 import { Button } from "@/app/components/ui/button";
 import { fetchTranslations } from "@/app/lib/actions";
+import React, { useActionState, useState } from "react";
 import { Textarea } from "@/app/components/ui/textarea";
 
 const QueryFormSchema = z.object({
@@ -18,6 +27,7 @@ const QueryFormSchema = z.object({
 
 export default function Generator() {
   const [state, formAction, pending] = useActionState(getQuery, null);
+  const [selectedDatabase, setSelectedDatabase] = useState(databases[0]);
 
   async function getQuery(_: unknown, formData: FormData) {
     try {
@@ -43,6 +53,8 @@ export default function Generator() {
         };
       }
 
+      toast.success("Query has been created");
+
       return { query: buildQuery(formFields.key, translations) };
     } catch (err) {
       console.error("Translation Error:", err);
@@ -62,7 +74,7 @@ export default function Generator() {
       .join(",\n");
 
     // @formatter:off
-    return `MERGE INTO parfumdreams.dbo.Translations AS target
+    return `MERGE INTO ${selectedDatabase} AS target
 USING (VALUES
 ${rows}
 ) AS source (Translation_Field, Language, Translation)
@@ -75,23 +87,39 @@ VALUES (source.Translation_Field, source.Language, source.Translation);`;
     // @formatter:on
   }
 
-  function handleSelect(e: React.ChangeEvent<HTMLTextAreaElement>) {
-    e.target.select();
-  }
-
   return (
     <>
       <form action={formAction} className="space-y-6">
-        <fieldset className="space-y-2">
-          <Label htmlFor="key">Translation Key</Label>
-          <Input
-            id="key"
-            name="key"
-            type="text"
-            placeholder="welcome_message"
-            defaultValue={state?.values?.key ?? ""}
-          />
-        </fieldset>
+        <div className="grid grid-cols-1 items-end gap-3 md:grid-cols-2">
+          <fieldset className="space-y-2">
+            <Label htmlFor="key">Translation Key</Label>
+            <Input
+              id="key"
+              name="key"
+              type="text"
+              placeholder="welcome_message"
+              defaultValue={state?.values?.key ?? ""}
+            />
+          </fieldset>
+          <Select
+            value={selectedDatabase}
+            onValueChange={(value) => setSelectedDatabase(value)}
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Databases</SelectLabel>
+                {databases.map((db) => (
+                  <SelectItem key={db} value={db}>
+                    {db}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </div>
         <fieldset className="space-y-2">
           <Label htmlFor="translation">Translation</Label>
           <Textarea
@@ -133,7 +161,7 @@ VALUES (source.Translation_Field, source.Language, source.Translation);`;
             id="query"
             value={state.query}
             className="font-mono h-64"
-            onFocus={handleSelect}
+            onFocus={(e) => e.target.select()}
             readOnly
           />
         </div>

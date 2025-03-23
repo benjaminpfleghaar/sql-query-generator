@@ -46,9 +46,9 @@ Ensure you have **Node.js** installed, an **OpenAI** API key and an active **Sup
    OPENAI_API_KEY=<YOUR_KEY>
    ```
 
-4. Update the database name in `/lib/actions.ts`:
+4. Update the database names and languages in `config.js`:
    ```js
-   const query = `MERGE INTO <YOUR_DATABASE> AS target...`;
+   export const languages = {1: "German", 2: "English", ...};
    ```
 
 5. Run the application:
@@ -66,6 +66,7 @@ The project follows a clear structure:
 │   ├── lib/            # Utilities and middleware
 │   ├── login/          # Login route
 │   │   ├── page.tsx    # Page displaying the login form
+│   ├── config.css      # App default values
 │   ├── global.css      # Global styles for the entire app
 │   ├── layout.tsx      # Layout component for the app
 │   ├── page.tsx        # Main page displaying the query generator

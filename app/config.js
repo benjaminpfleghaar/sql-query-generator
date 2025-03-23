@@ -13,4 +13,4 @@ export const languages = {
   65536: "Czech",
 };
 
-export const databases = { 1: "parfumdreams.dbo.Translations" };
+export const databases = ["parfumdreams.dbo.Translations"];
