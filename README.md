@@ -8,6 +8,7 @@ The generated query includes various translations, ready for database import.
 - **Multiple Languages:** Generate a query for various languages.
 - **AI-Powered Translations:** Translations are generated using ChatGPT
 - **Safe Insert:** Adds new translations if they don’t exist; otherwise, updates them
+- **Database Selector:** Switch between different databases for dynamic queries
 - **Secure Login:** Authentication via Supabase Auth
 
 ## Technologies
@@ -49,6 +50,7 @@ Ensure you have **Node.js** installed, an **OpenAI** API key and an active **Sup
 4. Update the database names and languages in `config.js`:
    ```js
    export const languages = {1: "German", 2: "English", ...};
+   export const databases = ["myDatabase.Translations", "..."];
    ```
 
 5. Run the application:
@@ -66,7 +68,7 @@ The project follows a clear structure:
 │   ├── lib/            # Utilities and middleware
 │   ├── login/          # Login route
 │   │   ├── page.tsx    # Page displaying the login form
-│   ├── config.css      # App default values
+│   ├── config.css      # Default language and databse values
 │   ├── global.css      # Global styles for the entire app
 │   ├── layout.tsx      # Layout component for the app
 │   ├── page.tsx        # Main page displaying the query generator
