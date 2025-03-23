@@ -1,6 +1,7 @@
 "use server";
 
 import { z } from "zod";
+import { languages } from "@/app/config";
 import { openai } from "@/app/lib/openai";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
@@ -9,11 +10,6 @@ import { createClient } from "@/app/lib/supabase/server";
 const LoginFormSchema = z.object({
   email: z.string().email().trim(),
   password: z.string().min(8).trim(),
-});
-
-const GeneratorFormSchema = z.object({
-  key: z.string().min(2).trim(),
-  translation: z.string().min(2).trim(),
 });
 
 export async function handleLogin(_: unknown, formData: FormData) {
@@ -69,43 +65,15 @@ export async function handleLogout() {
   redirect("/login");
 }
 
-export async function getQuery(_: unknown, formData: FormData) {
+export async function fetchTranslations(translation: string) {
   try {
-    const formFields = {
-      key: formData.get("key") as string,
-      translation: formData.get("translation") as string,
-    };
-
-    const validatedFields = GeneratorFormSchema.safeParse(formFields);
-    if (!validatedFields.success) {
-      return {
-        error: "Invalid format or missing fields",
-        values: formFields,
-      };
-    }
-
-    const languages = {
-      1: "German",
-      2: "English",
-      8: "Swedish",
-      32: "Danish",
-      128: "Italian",
-      256: "French",
-      512: "Spanish",
-      1024: "Dutch",
-      8192: "Finnish",
-      16384: "Polish",
-      32768: "Portuguese",
-      65536: "Czech",
-    };
-
-    const prompt =
-      `Translate the German word '${formFields.translation}' into the following languages:\n` +
-      Object.values(languages)
-        .map((lang) => `- ${lang}`)
-        .join("\n") +
-      "\n" +
-      "Provide the translations in the same order.";
+    // @formatter:off
+    const prompt = `Translate the German word/text '${translation}' into the following languages:
+${Object.values(languages)
+  .map((lang) => `- ${lang}`)
+  .join("\n")}
+Provide the translations in the same order.`;
+    // @formatter:on
 
     const response = await openai.chat.completions.create({
       model: "gpt-4o-mini",
@@ -113,7 +81,7 @@ export async function getQuery(_: unknown, formData: FormData) {
         {
           role: "system",
           content:
-            "You are a professional translator. Translate the given German text exactly into several languages, each beginning with a capital letter. Only return the translated text separated by commas.",
+            "You are a professional translator. Translate the given German word/text exactly into several languages with upper and lower case. Return the translations as a comma-separated list.",
         },
         {
           role: "user",
@@ -122,38 +90,15 @@ export async function getQuery(_: unknown, formData: FormData) {
       ],
     });
 
-    if (!response || !response.choices || response.choices.length === 0) {
+    const translations = response.choices?.[0]?.message?.content;
+
+    if (!translations) {
       return {
         error: "No response received. Please try again",
-        values: formFields,
       };
     }
 
-    const content = response.choices[0].message.content ?? "";
-
-    const translations =
-      content
-        .split(",")
-        .map(
-          (translation, index) =>
-            `(N'${formFields.key}', ${Object.keys(languages)[index]}, N'${translation.trim()}')`,
-        )
-        .join(",\n") ?? "";
-
-    // @formatter:off
-    const query = `MERGE INTO parfumdreams.dbo.Translations AS target
-USING (VALUES
-${translations}
-) AS source (Translation_Field, Language, Translation)
-ON target.Translation_Field = source.Translation_Field AND target.Language = source.Language
-WHEN MATCHED THEN
-UPDATE SET target.Translation = source.Translation
-WHEN NOT MATCHED THEN
-INSERT (Translation_Field, Language, Translation)
-VALUES (source.Translation_Field, source.Language, source.Translation);`;
-    // @formatter:on
-
-    return { query: query };
+    return translations;
   } catch (err) {
     console.error("Translation Error:", err);
     return {
