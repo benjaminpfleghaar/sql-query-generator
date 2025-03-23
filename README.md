@@ -33,20 +33,24 @@ Ensure you have **Node.js** installed, an **OpenAI** API key and an active **Sup
    ```bash
    git clone https://github.com/benjaminpfleghaar/sql-query-generator.git
    ```
+
 2. Install dependencies:
    ```bash
    npm install
    ```
+
 3. Create a `.env.local.` file and provide credentials:
-   ```js
+   ```plaintext
    NEXT_PUBLIC_SUPABASE_URL=<YOUR_URL>
    NEXT_PUBLIC_SUPABASE_ANON_KEY=<YOUR_KEY>
    OPENAI_API_KEY=<YOUR_KEY>
    ```
+
 4. Update the database name in `/lib/actions.ts`:
    ```js
    const query = `MERGE INTO <YOUR_DATABASE> AS target...`;
    ```
+
 5. Run the application:
    ```bash
    npm run dev
