@@ -13,9 +13,12 @@ import { ThemeToggle } from "@/app/components/theme-toggle";
 
 export default async function Home() {
   const supabase = await createClient();
-  const { error, data } = await supabase.auth.getUser();
+  const {
+    error,
+    data: { user },
+  } = await supabase.auth.getUser();
 
-  if (error || !data?.user) {
+  if (error || !user) {
     redirect("/login");
   }
   // TODO move whole card into generator.tsx

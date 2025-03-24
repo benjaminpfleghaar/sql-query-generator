@@ -63,8 +63,17 @@ export async function handleLogout() {
 }
 
 export async function fetchTranslations(translation: string) {
-  // TODO check if user is logged in
   try {
+    const supabase = await createClient();
+    const {
+      error,
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (error || !user) {
+      return;
+    }
+
     // @formatter:off
     const prompt = `Translate the German word/text '${translation}' into the following languages:
 ${Object.values(languages)
