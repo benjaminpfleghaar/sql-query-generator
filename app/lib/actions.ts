@@ -71,7 +71,9 @@ export async function fetchTranslations(translation: string) {
     } = await supabase.auth.getUser();
 
     if (error || !user) {
-      return;
+      return {
+        error: "No authorization. Please login",
+      };
     }
 
     // @formatter:off
