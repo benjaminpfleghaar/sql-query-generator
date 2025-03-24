@@ -57,7 +57,7 @@ export default function Generator() {
       toast.success("Query has been created");
 
       return {
-        query: buildQuery(formFields.key, formFields.database, translations),
+        query: buildQuery(formFields, translations),
       };
     } catch (err) {
       console.error("Translation Error:", err);
@@ -67,7 +67,10 @@ export default function Generator() {
     }
   }
 
-  function buildQuery(key: string, database: string, translations: string) {
+  function buildQuery(
+    { key, database }: { key: string; database: string },
+    translations: string,
+  ) {
     const rows = translations
       .split(",")
       .map(
