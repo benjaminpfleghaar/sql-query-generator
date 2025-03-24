@@ -69,7 +69,7 @@ The project follows a clear structure:
 │   ├── login/          # Login route
 │   │   ├── page.tsx    # Page displaying the login form
 │   ├── config.js       # Default language and database values
-│   ├── global.css      # Global styles for the entire app
+│   ├── globals.css     # Global styles for the entire app
 │   ├── layout.tsx      # Layout component for the app
 │   ├── page.tsx        # Main page displaying the query generator
 ```
