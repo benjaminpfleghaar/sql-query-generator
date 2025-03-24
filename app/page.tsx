@@ -18,7 +18,7 @@ export default async function Home() {
   if (error || !data?.user) {
     redirect("/login");
   }
-
+  // TODO move whole card into generator.tsx
   return (
     <div className="p-10">
       <Card className="max-w-4xl mx-auto">

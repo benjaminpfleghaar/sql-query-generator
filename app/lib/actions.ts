@@ -4,7 +4,6 @@ import { z } from "zod";
 import { languages } from "@/app/config";
 import { openai } from "@/app/lib/openai";
 import { redirect } from "next/navigation";
-import { revalidatePath } from "next/cache";
 import { createClient } from "@/app/lib/supabase/server";
 
 const LoginFormSchema = z.object({
@@ -43,7 +42,6 @@ export async function handleLogin(_: unknown, formData: FormData) {
     };
   }
 
-  revalidatePath("/", "layout");
   redirect("/");
 }
 
@@ -61,11 +59,11 @@ export async function handleLogout() {
     return;
   }
 
-  revalidatePath("/", "layout");
   redirect("/login");
 }
 
 export async function fetchTranslations(translation: string) {
+  // TODO check if user is logged in
   try {
     // @formatter:off
     const prompt = `Translate the German word/text '${translation}' into the following languages:

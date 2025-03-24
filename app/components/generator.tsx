@@ -27,6 +27,7 @@ const QueryFormSchema = z.object({
 
 export default function Generator() {
   const [state, formAction, pending] = useActionState(getQuery, null);
+  // TODO useState
   const [selectedDatabase, setSelectedDatabase] = useState(databases[0]);
 
   async function getQuery(_: unknown, formData: FormData) {
