@@ -12,29 +12,29 @@ import {
 import { z } from "zod";
 import { toast } from "sonner";
 import { Copy, Loader2 } from "lucide-react";
-import { databases, languages } from "@/app/config";
+import React, { useActionState } from "react";
 import { Label } from "@/app/components/ui/label";
 import { Input } from "@/app/components/ui/input";
 import { Button } from "@/app/components/ui/button";
+import { databases, languages } from "@/app/config";
 import { fetchTranslations } from "@/app/lib/actions";
-import React, { useActionState, useState } from "react";
 import { Textarea } from "@/app/components/ui/textarea";
 
 const QueryFormSchema = z.object({
   key: z.string().min(2).trim(),
   translation: z.string().min(2).trim(),
+  database: z.string().min(2),
 });
 
 export default function Generator() {
   const [state, formAction, pending] = useActionState(getQuery, null);
-  // TODO useState
-  const [selectedDatabase, setSelectedDatabase] = useState(databases[0]);
 
   async function getQuery(_: unknown, formData: FormData) {
     try {
       const formFields = {
         key: formData.get("key") as string,
         translation: formData.get("translation") as string,
+        database: formData.get("database") as string,
       };
 
       const validatedFields = QueryFormSchema.safeParse(formFields);
@@ -56,7 +56,9 @@ export default function Generator() {
 
       toast.success("Query has been created");
 
-      return { query: buildQuery(formFields.key, translations) };
+      return {
+        query: buildQuery(formFields.key, formFields.database, translations),
+      };
     } catch (err) {
       console.error("Translation Error:", err);
       return {
@@ -65,7 +67,7 @@ export default function Generator() {
     }
   }
 
-  function buildQuery(key: string, translations: string) {
+  function buildQuery(key: string, database: string, translations: string) {
     const rows = translations
       .split(",")
       .map(
@@ -75,7 +77,7 @@ export default function Generator() {
       .join(",\n");
 
     // @formatter:off
-    return `MERGE INTO ${selectedDatabase} AS target
+    return `MERGE INTO ${database} AS target
 USING (VALUES
 ${rows}
 ) AS source (Translation_Field, Language, Translation)
@@ -102,10 +104,7 @@ VALUES (source.Translation_Field, source.Language, source.Translation);`;
               defaultValue={state?.values?.key ?? ""}
             />
           </fieldset>
-          <Select
-            value={selectedDatabase}
-            onValueChange={(value) => setSelectedDatabase(value)}
-          >
+          <Select defaultValue={databases[0]} name="database">
             <SelectTrigger className="w-full">
               <SelectValue />
             </SelectTrigger>
