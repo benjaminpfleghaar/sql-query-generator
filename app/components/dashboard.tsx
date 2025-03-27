@@ -89,18 +89,9 @@ export default function Dashboard() {
       )
       .join(",\n");
 
-    // TODO check query
     // @formatter:off
-    return `MERGE INTO ${database} AS target
-USING (VALUES
-${rows}
-) AS source (Translation_Field, Language, Translation)
-ON target.Translation_Field = source.Translation_Field AND target.Language = source.Language
-WHEN MATCHED THEN
-UPDATE SET target.Translation = source.Translation
-WHEN NOT MATCHED THEN
-INSERT (Translation_Field, Language, Translation)
-VALUES (source.Translation_Field, source.Language, source.Translation);`;
+    return `INSERT INTO ${database} (Translation_Field, Language, Translation) VALUES
+${rows}`;
     // @formatter:on
   }
 

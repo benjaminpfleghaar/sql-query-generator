@@ -90,7 +90,7 @@ Provide the translations in the same order.`;
         {
           role: "system",
           content:
-            "You are a professional translator. Translate the given German word/text exactly into several languages with upper and lower case. Return the translations as a comma-separated list.",
+            "You are a professional translator. Translate the given German word/text exactly into several languages with upper and lower case. Return only the translations as a comma-separated list.",
         },
         {
           role: "user",
