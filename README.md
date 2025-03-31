@@ -3,6 +3,8 @@
 A **Next.js** application that generates SQL queries based on a given translation key and its corresponding translation.
 The generated query includes various translations, ready for database import.
 
+![Mockup](./assets/mockup.jpg)
+
 ## Features
 
 - **Multiple Languages:** Generate a query for various languages
