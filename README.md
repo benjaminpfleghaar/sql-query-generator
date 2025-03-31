@@ -5,7 +5,7 @@ The generated query includes various translations, ready for database import.
 
 ## Features
 
-- **Multiple Languages:** Generate a query for various languages.
+- **Multiple Languages:** Generate a query for various languages
 - **AI-Powered Translations:** Translations are generated using ChatGPT
 - **Safe Insert:** Adds new translations if they don’t exist; otherwise, updates them
 - **Database Selector:** Switch between different databases for dynamic queries
