@@ -7,7 +7,6 @@ The generated query includes various translations, ready for database import.
 
 - **Multiple Languages:** Generate a query for various languages
 - **AI-Powered Translations:** Translations are generated using ChatGPT
-- **Safe Insert:** Adds new translations if they don’t exist; otherwise, updates them
 - **Database Selector:** Switch between different databases for dynamic queries
 - **Secure Login:** Authentication via Supabase Auth
 
