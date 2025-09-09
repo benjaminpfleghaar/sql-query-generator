@@ -58,19 +58,3 @@ Ensure you have **Node.js** installed, an **OpenAI** API key and an active **Sup
    ```bash
    npm run dev
    ```
-
-## Project Structure
-
-The project follows a clear structure:
-
-```plaintext
-├── app/                # Source code
-│   ├── components/     # UI components
-│   ├── lib/            # Utilities and middleware
-│   ├── login/          # Login route
-│   │   ├── page.tsx    # Page displaying the login form
-│   ├── config.js       # Default language and database values
-│   ├── globals.css     # Global styles for the entire app
-│   ├── layout.tsx      # Layout component for the app
-│   ├── page.tsx        # Main page displaying the query generator
-```
