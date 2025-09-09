@@ -1,7 +1,7 @@
 # SQL Query Generator
 
-A **Next.js** application that generates SQL queries based on a given translation key and its corresponding translation.
-The generated query includes various translations, ready for database import.
+A **Next.js** application that converts translation keys and their values into SQL queries. The app uses AI to
+generate multilingual queries that can be integrated directly into the database.
 
 ![Mockup](./assets/mockup.jpg)
 
